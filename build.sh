@@ -119,11 +119,8 @@ if [ $(uname) = "Linux" ]; then
   fi
 fi
 
-if compare_versions $(vagrant plugin list | grep 'vagrant-vmware' | cut -d' ' -f2 | tr -d '(' | tr -d ')' | tr -d ',') $min_vagrantvmware_ver false; then
-  echo 'Compatible version of vagrant-vmware plugin was found.'
-  echo 'VMware image will be built'
-  providers="vmware $providers"
-fi
+echo 'VMware image will be built'
+providers="vmware $providers"
 
 if compare_versions $(vagrant plugin list | grep 'vagrant-reload' | cut -d' ' -f2 | tr -d '(' | tr -d ')') $min_vagrantreload_ver false; then
     echo 'Compatible version of vagrant-reload plugin was found.'
