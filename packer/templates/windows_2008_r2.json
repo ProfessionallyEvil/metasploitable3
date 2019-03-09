@@ -293,7 +293,9 @@
       "type": "vagrant",
       "keep_input_artifact": false,
       "output": "{{template_dir}}/../builds/windows_2008_r2_{{.Provider}}_{{user `box_version`}}.box",
-      "vagrantfile_template": "{{template_dir}}/vagrantfile-windows_2008_r2.template"
+      "vagrantfile_template": "{{template_dir}}/vagrantfile-windows_2008_r2.template",
+      "compression": 9
+      
     }
   ],
   "variables": {
@@ -304,6 +306,6 @@
     "scripts_dir": "{{template_dir}}/../../scripts",
     "resources_dir": "{{template_dir}}/../../resources",
     "box_version": "0.1.0",
-    "headless_bool":true
+    "headless_bool": ""
   }
 }

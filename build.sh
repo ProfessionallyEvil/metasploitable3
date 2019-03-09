@@ -122,7 +122,8 @@ fi
 echo 'VMware image will be built'
 providers="vmware $providers"
 
-if compare_versions $(vagrant plugin list | grep 'vagrant-reload' | cut -d' ' -f2 | tr -d '(' | tr -d ')') $min_vagrantreload_ver false; then
+if compare_versions $(vagrant plugin list | grep 'vagrant-reload' | cut -d' ' -f2 | tr -d '(' | tr -d ')' | tr -d ',') $min_vagrantreload_ver false; then
+
     echo 'Compatible version of vagrant-reload plugin was found.'
 else
     echo "Compatible version of vagrant-reload plugin was not found."
@@ -153,7 +154,9 @@ for provider in $providers; do
       if [ $provider = "qemu" ]; then
         packer_provider=$provider
       fi
-      if $packer_bin build -only $packer_provider packer/templates/$os_full.json; then
+      if $packer_bin build -only $packer_provider -var "headless_bool=${HEADLESS}" packer/templates/$os_full.json; then
+          echo "Boxes successfully built headlessly by Packer."
+      elif $packer_bin build -only $packer_provider packer/templates/$os_full.json; then
           echo "Boxes successfully built by Packer."
       else
           echo "Error building the Vagrant boxes using Packer. Please check the output above for any error messages."
