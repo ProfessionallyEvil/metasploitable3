@@ -5,7 +5,7 @@
       "iso_url": "{{user `iso_url`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
-      "headless": false,
+      "headless":"{{user `headless_bool`}}",
       "boot_wait": "10m",
       "communicator": "ssh",
       "ssh_username": "vagrant",
@@ -49,7 +49,7 @@
       "iso_url": "{{user `iso_url`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
-      "headless": false,
+      "headless":"{{user `headless_bool`}}",
       "boot_wait": "10m",
       "communicator": "ssh",
       "ssh_username": "vagrant",
@@ -100,7 +100,7 @@
       "iso_url": "{{user `iso_url`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
-      "headless": false,
+      "headless":"{{user `headless_bool`}}",
       "boot_wait": "10m",
       "communicator": "ssh",
       "accelerator": "kvm",
@@ -303,6 +303,7 @@
     "autounattend": "{{template_dir}}/../answer_files/2008_r2/Autounattend.xml",
     "scripts_dir": "{{template_dir}}/../../scripts",
     "resources_dir": "{{template_dir}}/../../resources",
-    "box_version": "0.1.0"
+    "box_version": "0.1.0",
+    "headless_bool":true
   }
 }
