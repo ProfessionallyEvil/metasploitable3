@@ -296,6 +296,12 @@
       "vagrantfile_template": "{{template_dir}}/vagrantfile-windows_2008_r2.template",
       "compression_level": 9
       
+    },
+    {
+      "type": "vagrant-cloud",
+      "box_tag": "{{user `vm_name`}}",
+      "access_token": "{{user `vagrant_cloud_token`}}",
+      "version": "{user `vm_version`}"
     }
   ],
   "variables": {
@@ -306,6 +312,9 @@
     "scripts_dir": "{{template_dir}}/../../scripts",
     "resources_dir": "{{template_dir}}/../../resources",
     "box_version": "0.1.0",
-    "headless_bool": ""
+    "headless_bool": "",
+    "vm_name":"",
+    "vm_version":"",
+    "vagrant_cloud_token":""
   }
 }

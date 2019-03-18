@@ -167,7 +167,12 @@ for provider in $providers; do
       if [[ $HEADLESS ]] ; then
         packer_vars="$packer_vars -var \"headless_bool=${HEADLESS}\""
       fi
-      packer_cmd="$packer_bin build -only $packer_provider $packer_vars $packer_template_path/$os_full.json"
+      if [[ ${os_short} == 'ub1404' ]] ; then
+        vm='linux'
+      else
+        vm='windows'
+      fi
+      packer_cmd="$packer_bin build -only $packer_provider -var "vagrant_cloud_token=\"${VAGRANT_CLOUD_UPLOAD_TOKEN}\"" -var "vm_version=\"${VAGRANT_BOX_VM_VERSION}\"" -var "vm_name=\"ProfessionallyEvil/metasploitable3_${vm}\"" $packer_vars $packer_template_path/$os_full.json"
       echo ${packer_cmd}
       eval ${packer_cmd} &
     fi

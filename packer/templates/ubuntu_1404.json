@@ -152,6 +152,12 @@
       "vagrantfile_template": "{{user `vagrant_file`}}",
       "compression_level":9
 
+    },
+    {
+      "type": "vagrant-cloud",
+      "box_tag": "{{user `vm_name`}}",
+      "access_token": "{{user `vagrant_cloud_token`}}",
+      "version": "{user `vm_version`}"
     }
   ],
   "variables": {
@@ -160,6 +166,9 @@
     "iso_checksum": "ababb88a492e08759fddcf4f05e5ccc58ec9d47fa37550d63931d0a5fa4f7388",
     "box_version": "0.1.12",
     "headless_bool": "",
-    "vagrant_file": "{{template_dir}}/../../../packer/vagrant_files/metasploitable3.vagrant"
+    "vagrant_file": "{{template_dir}}/../../../packer/vagrant_files/metasploitable3.vagrant",
+    "vm_name":"",
+    "vm_version":"",
+    "vagrant_cloud_token":""
   }
 }
