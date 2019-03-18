@@ -7,8 +7,6 @@
       "iso_checksum": "{{user `iso_checksum`}}",
       "headless":"{{user `headless_bool`}}",
       "http_directory" : "{{template_dir}}/../http",
-      "http_port_min" : 9001,
-      "http_port_max" : 9001,
       "boot_command": [
         "<esc><wait>",
         "<esc><wait>",
@@ -45,8 +43,6 @@
       "iso_checksum": "{{user `iso_checksum`}}",
       "headless":"{{user `headless_bool`}}",
       "http_directory" : "{{template_dir}}/../http",
-      "http_port_min" : 9001,
-      "http_port_max" : 9001,
       "boot_command": [
         "<esc><wait>",
         "<esc><wait>",
@@ -90,8 +86,6 @@
       "iso_checksum": "{{user `iso_checksum`}}",
       "headless":"{{user `headless_bool`}}",
       "http_directory" : "{{template_dir}}/../http",
-      "http_port_min" : 9001,
-      "http_port_max" : 9001,
       "boot_command": [
         "<esc><wait>",
         "<esc><wait>",
@@ -155,6 +149,7 @@
       "type": "vagrant",
       "keep_input_artifact": false,
       "output": "{{template_dir}}/../builds/ubuntu_1404_{{.Provider}}_{{user `box_version`}}.box",
+      "vagrantfile_template": "{{user `vagrant_file`}}",
       "compression_level":9
 
     }
@@ -164,6 +159,7 @@
     "iso_checksum_type": "sha256",
     "iso_checksum": "ababb88a492e08759fddcf4f05e5ccc58ec9d47fa37550d63931d0a5fa4f7388",
     "box_version": "0.1.12",
-    "headless_bool": ""
+    "headless_bool": "",
+    "vagrant_file": "{{template_dir}}/../../../packer/vagrant_files/metasploitable3.vagrant"
   }
 }

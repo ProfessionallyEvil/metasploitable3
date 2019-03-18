@@ -8,6 +8,7 @@ min_vagrantvmware_ver="0.0.1"
 min_vagrantlibvirt_ver="0.0.1"
 packer_bin="packer"
 packer_build_path="packer/builds"
+packer_template_path='packer/templates'
 
 case "$1" in
     ubuntu1404)  echo "building ubuntu 1404"
@@ -26,6 +27,15 @@ case "$1" in
 esac
 
 box_version=$(grep \"box_version\": packer/templates/$os_full.json | grep -Eow "[0-9]\.[0-9]\.[0-9]+")
+
+pre_packer_ops(){
+  if [[ $os_full == "windows_2008_r2" ]] ; then
+    template_file="${packer_template_path}/vagrantfile-${os_full}.template"
+    cp ${template_file}.orig ${template_file}
+  else
+    template_file="../packer/vagrant_files/metasploitabl3.vagrant"
+  fi
+}
 
 function compare_versions {
     actual_version=$1
@@ -123,7 +133,6 @@ echo 'VMware image will be built'
 providers="vmware $providers"
 
 if compare_versions $(vagrant plugin list | grep 'vagrant-reload' | cut -d' ' -f2 | tr -d '(' | tr -d ')' | tr -d ',') $min_vagrantreload_ver false; then
-
     echo 'Compatible version of vagrant-reload plugin was found.'
 else
     echo "Compatible version of vagrant-reload plugin was not found."
@@ -145,6 +154,7 @@ echo "Requirements found. Proceeding..."
 
 for provider in $providers; do
     search_string="$os_full"_"$provider"_"$box_version"
+    packer_vars=''
     mkdir -p "$packer_build_path"
     if [ -e $packer_build_path/$search_string.box ]; then
       echo "It looks like the $provider vagrant box already exists. Skipping the build."
@@ -154,18 +164,27 @@ for provider in $providers; do
       if [ $provider = "qemu" ]; then
         packer_provider=$provider
       fi
-      if $packer_bin build -only $packer_provider -var "headless_bool=${HEADLESS}" packer/templates/$os_full.json; then
-          echo "Boxes successfully built headlessly by Packer."
-      elif $packer_bin build -only $packer_provider packer/templates/$os_full.json; then
-          echo "Boxes successfully built by Packer."
-      else
-          echo "Error building the Vagrant boxes using Packer. Please check the output above for any error messages."
-          exit 1
+      if [[ $HEADLESS ]] ; then
+        packer_vars="$packer_vars -var \"headless_bool=${HEADLESS}\""
       fi
+      packer_cmd="$packer_bin build -only $packer_provider $packer_vars $packer_template_path/$os_full.json"
+      echo ${packer_cmd}
+      eval ${packer_cmd} &
     fi
 done
 
+while ps -aux | grep "${USER}" | grep '[p]acker' | grep metasploitable3 1> /dev/null ; do
+  sleep 1
+done
+if [[ -f ${packer_build_path}/$current_os ]] ; then
+  echo "Boxes successfully built headlessly by Packer."
+else
+  echo "Error building the Vagrant boxes using Packer. Please check the output above for any error messages."
+  exit 1
+fi
+
 echo "Attempting to add the box to Vagrant..."
+
 
 for provider in $providers; do
     if vagrant box list | grep -q rapid7/metasploitable3-"$os_short"; then

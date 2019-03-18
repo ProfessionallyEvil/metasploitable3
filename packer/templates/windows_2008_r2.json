@@ -294,7 +294,7 @@
       "keep_input_artifact": false,
       "output": "{{template_dir}}/../builds/windows_2008_r2_{{.Provider}}_{{user `box_version`}}.box",
       "vagrantfile_template": "{{template_dir}}/vagrantfile-windows_2008_r2.template",
-      "compression": 9
+      "compression_level": 9
       
     }
   ],
