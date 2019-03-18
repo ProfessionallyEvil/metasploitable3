@@ -173,6 +173,9 @@ for provider in $providers; do
     fi
 done
 
+# giving packer a second to launch
+sleep 5
+
 while ps -aux | grep "${USER}" | grep '[p]acker' | grep metasploitable3 1> /dev/null ; do
   sleep 1
 done
