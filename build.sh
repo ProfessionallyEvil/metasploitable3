@@ -9,6 +9,7 @@ min_vagrantlibvirt_ver="0.0.1"
 packer_bin="packer"
 packer_build_path="packer/builds"
 packer_template_path='packer/templates'
+variable_files=${2}
 
 case "$1" in
     ubuntu1404)  echo "building ubuntu 1404"
@@ -172,7 +173,7 @@ for provider in $providers; do
       else
         vm='windows'
       fi
-      packer_cmd="$packer_bin build -only $packer_provider -var "vagrant_cloud_token=\"${VAGRANT_CLOUD_UPLOAD_TOKEN}\"" -var "vm_version=\"${VAGRANT_BOX_VM_VERSION}\"" -var "vm_name=\"ProfessionallyEvil/metasploitable3_${vm}\"" $packer_vars $packer_template_path/$os_full.json"
+      packer_cmd="$packer_bin build -only $packer_provider -var-file ${variable_files} -var \"vm_name=\"ProfessionallyEvil/metasploitable3_${vm}\"\" $packer_vars $packer_template_path/$os_full.json"
       echo ${packer_cmd}
       eval ${packer_cmd} &
     fi
